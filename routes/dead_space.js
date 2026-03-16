@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-const db = require('../db/connector');
+import express from 'express';
+const router = express.Router();
+import db from '../db/connector.js';
 
 router.get('/', async function(req, res, next) {
   const weapon = await db.query('SELECT * FROM users_test');
@@ -14,4 +14,4 @@ router.get('/', async function(req, res, next) {
   res.render('dead_space', { weapons: modWeapons || [] });
 });
 
-module.exports = router;
+export default router;

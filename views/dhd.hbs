@@ -1,0 +1,24 @@
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Reason</th>
+            <th scope="col">Season</th>
+            <th scope="col">Favorite Episode</th>
+            <th scope="col">Good Husband?</th>
+            <th scope="col">Character Notes</th>
+            <th scope="col">Created At</th> </tr>
+    </thead>
+    <tbody>
+        {{#each dhd}}
+            <tr>
+                <td>{{this.username}}</td>
+                <td>{{this.reason}}</td>
+                <td>{{this.season}}</td>
+                <td>{{this.favorite_episode}}</td>
+                <td>{{this.good_husband}}</td>
+                <td>{{this.character_notes}}</td>
+                <td>{{this.created_at}}</td> </tr>
+        {{/each}}
+    </tbody>
+</table>

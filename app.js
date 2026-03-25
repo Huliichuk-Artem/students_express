@@ -7,10 +7,15 @@ import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import indexRouter from './routes/index.js'
 import usersRouter from './routes/users.js'
+import gamesRouter from './routes/games.js'
 import weaponRouter from './routes/dead_space.js'
 import carsRouter from './routes/cars.js'
 import slonikiRouter from './routes/sloniki.js'
 import gymRouter from './routes/gym.js'
+import heroesRouter from './routes/heroes_mlbb.js' 
+import catsRouter from './routes/cats.js' 
+import dhdRouter from './routes/dhd.js'
+import streetFoodRouter from './routes/street_food.js'
 
 import { fileURLToPath } from 'url';
 
@@ -31,22 +36,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/students', usersRouter);
+app.use('/games', gamesRouter);
 app.use('/weapons', weaponRouter);
-app.use('/sloniki', slonikiRouter)
+app.use('/sloniki', slonikiRouter);
 app.use('/cars', carsRouter);
 app.use('/gym', gymRouter);
+app.use('/heroes', heroesRouter); 
+app.use('/cats', catsRouter); 
+app.use('/dhd', dhdRouter);
+app.use('/street_food', streetFoodRouter);
+
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });

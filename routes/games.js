@@ -2,6 +2,10 @@ import express from 'express';
 const router = express.Router();
 import db from '../db/connector.js';
 
+const regexName = /^[A-Z0-9][a-zA-Z0-9\s\-:!._]*$/;
+const regexMode = /^(Online|Offline|Both)$/;
+const regexCost = /^([0-9][0-9]*[$])$/
+
 router.get('/', async function(req, res, next) {
   const games = await db.query('SELECT * FROM games_info');
   const rowGames = games.rows.map(w => {
@@ -23,9 +27,6 @@ router.post('/create', async function(req, res, next) {
   const name = req.body.name;
   const mode = req.body.mode;
   const cost = req.body.cost
-  const regexName = /^[A-Z0-9][a-zA-Z0-9\s\-:!._]*$/;
-  const regexMode = /^(Online|Offline|Both)$/;
-  const regexCost = /^([0-9][0-9]*[$])$/
 
 
 if (!regexName.test(name) || !regexMode.test(mode) || !regexCost.test(cost)) {
@@ -63,9 +64,6 @@ router.post('/update/:id', async function(req, res, next) {
   const name = req.body.name;
   const mode = req.body.mode;
   const cost = req.body.cost
-  const regexName = /^[a-zA-Z0-9][a-zA-Z0-9\s\-:!._]*$/;
-  const regexMode = /^(Online|Offline|Both)$/;
-  const regexCost = /^([0-9][0-9]*[$])$/;
 
 if (!regexName.test(name) || !regexMode.test(mode) || !regexCost.test(cost)) {
     return res.status(400).send("Something is wrong :D");

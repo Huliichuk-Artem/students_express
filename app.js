@@ -11,6 +11,7 @@ import gamesRouter from './routes/games.js'
 import weaponRouter from './routes/dead_space.js'
 import carsRouter from './routes/cars.js'
 import slonikiRouter from './routes/sloniki.js'
+import moviesRouter from './routes/movies.js'
 import gymRouter from './routes/gym.js'
 import heroesRouter from './routes/heroes_mlbb.js' 
 import catsRouter from './routes/cats.js' 
@@ -36,6 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/movies', moviesRouter);
 app.use('/students', usersRouter);
 app.use('/games', gamesRouter);
 app.use('/weapons', weaponRouter);

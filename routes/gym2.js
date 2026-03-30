@@ -3,7 +3,7 @@ const router = express.Router();
 import db from '../db/connector.js';
 
 router.get('/', async function(req, res, next) {
-  const exercise = await db.query('SELECT * FROM gym');
+  const exercise = await db.query('SELECT * FROM gym2');
 
   const modExercise = exercise.rows.map(w => {
     return {
@@ -11,7 +11,7 @@ router.get('/', async function(req, res, next) {
       created_at: w.created_at.toLocaleDateString()
     }
   })
-  res.render('gym', { exercise: modExercise || [] });
+  res.render('gym2', { exercise: modExercise || [] });
 });
 router.get('/addExercise', async function(req, res, next) {
   res.render('forms/gym_form');
@@ -25,7 +25,7 @@ const { exercise_name, difficult_level, required_level, Muscle_name, Sets } = re
   async function addExer(exercise_name, difficult_level, required_level, Muscle_name, Sets) {
    try {
       const query = `
-      INSERT INTO gym (
+      INSERT INTO gym2 (
             exercise_name, difficult_level, required_level, Muscle_name, Sets
         )
         VALUES ($1, $2, $3, $4, $5) 
@@ -41,9 +41,20 @@ const { exercise_name, difficult_level, required_level, Muscle_name, Sets } = re
 try {
     await addExer(exercise_name, difficult_level, required_level, Muscle_name, Sets);
     
-    res.redirect('/gym');
+    res.redirect('/gym2');
   } catch (err) {
     res.status(500).send("Помилка при додаванні вправи. Можливо, вона вже існує.");
+  }
+});
+
+router.get("/delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.query("DELETE FROM gym2 WHERE id = $1", [id]);
+    res.redirect("/gym2");
+  } catch (err) {
+    console.error("Delete error:", err);
+    res.status(500).send("Could not delete exercise");
   }
 });
 

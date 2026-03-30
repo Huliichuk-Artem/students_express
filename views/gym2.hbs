@@ -1,0 +1,100 @@
+<!--view table of students-->
+<style>
+    .upper{
+        margin-top: 4vh;
+        
+    }
+    .button_back{
+        background-color: #383535;
+        padding: 5px 10px;
+        text-align: center;
+        height: 7vh;
+        border-radius: 12px;  
+        font-weight: 400; 
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        margin-bottom: 5vh;
+        position: relative;
+        right: 10vw;
+        width: 10vw; 
+        font-size: 24px; 
+        border-color: #383535;
+    }
+    .body{
+        background-image:  #bdc3c7;
+       background: #636363;
+background: radial-gradient(circle, rgba(99, 99, 99, 1) 0%, rgba(122, 122, 122, 1) 38%, rgba(219, 215, 215, 1) 100%);
+        height:100vh
+    }
+    .button_del{
+        background-color: #383535;
+        padding: 5px 10px;
+        text-align: center;
+        border-color: #383535;
+        border-radius: 8px; 
+    }
+    .naming{
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        width: auto;
+        background-color: #DBD7D7;
+    }
+    .typed{
+        font-size: 20px;
+        text-align: center;
+        width: auto;
+        font-weight: 500;
+        font-family: 'Times New Roman', Times, serif;
+        background-color: #F0F0F0;
+    }
+    .button_add{
+        background-color: #383535;
+        padding: 10px 10px;
+        text-align: center;
+        height: auto;
+        border-color: #383535;
+        border-radius: 8px; 
+    }
+</style>
+<body class="body">
+<div class="upper">
+    <a href="/">
+    <button class="button_back">Назад</button>
+    </a>
+</div>
+</body>      
+<table>
+    <thead>
+    <tr>
+        {{!-- <th class="naming" scope="col">ID</th> --}}
+        <th style="border-radius: 8px 0 0 0 ;" class="naming" scope="col">Назва вправи</th>
+        <th class="naming" scope="col">Рівень складності</th>
+        <th class="naming" scope="col">Рівень підготовки</th>
+        <th class="naming" scope="col">Група мязів</th>
+        <th class="naming" scope="col">Кількість підходів</th>
+        <th style="border-radius: 0 8px 0 0 ;"class="naming" scope="col">Дії</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each exercise}}
+        <tr>
+            {{!-- <th class="typed" scope="row">{{this.id}}</th> --}}
+            <td class="typed">{{this.exercise_name}}</td>
+            <td class="typed">{{this.difficult_level}}</td>
+            <td class="typed">{{this.required_level}}</td>
+            <td class="typed">{{this.muscle_name}}</td>
+            <td class="typed">{{this.sets}}</td>
+            <td style="background-color:#F0F0F0;  text-align: center;">
+                  <button class="button_del" >
+                      <a style="color:#d6d3d3; text-decoration: none; font-family: 'Times New Roman', Times, serif;" href="/gym2/delete/{{this.id}}">Видалити</a>
+                  </button>
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>
+  <div>
+    <button class="button_add">
+    <a style="color:#d6d3d3; font-family: 'Times New Roman', Times, serif; text-decoration: none;" href="/gym2/addExercise">Додати вправу</a>
+    </button>
+    </div>

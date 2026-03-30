@@ -1,0 +1,29 @@
+<button 
+    style="background-color: rgb(242, 130, 208)">
+    <a style="color:#ffffff" href="/">
+        GO BACK
+    </a>
+</button>
+
+<table>
+    <thead>
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">barcode</th>
+        <th scope="col">name</th>
+        <th scope="col">price</th>
+        <th scope="col">quantity</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#each product}}
+        <tr>
+            <th scope="row">{{id}}</th>
+            <td>{{this.barcode}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.price}}</td>
+            <td>{{this.quantity}}</td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

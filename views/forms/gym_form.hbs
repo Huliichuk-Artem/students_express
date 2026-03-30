@@ -1,37 +1,83 @@
-<button 
-    style="background-color: rgb(242, 130, 208)">
-    <a style="color:#ffffff" href="/gym">
-        GO BACK
+<style>
+    body{
+         background-image:  #bdc3c7;
+       background: #636363;
+background: radial-gradient(circle, rgba(99, 99, 99, 1) 0%, rgba(122, 122, 122, 1) 38%, rgba(219, 215, 215, 1) 100%);
+        height:100vh
+    }
+    .button_back{
+        background-color: #383535;
+        padding: 5px 10px;
+        text-align: center;
+        height: 7vh;
+        border-radius: 12px;  
+        font-weight: 300; 
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        margin-bottom: 5vh;
+        position: relative;
+        right: 10vw;
+        width: 10vw; 
+        font-size: 20px; 
+        border-color: #383535;
+    }
+    .button_submit{
+        background-color: #383535;
+        padding: 5px 10px;
+        text-align: center;
+        height: 7vh;
+        border-radius: 12px;  
+        font-weight: 400; 
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        margin-bottom: 5vh;
+        position: relative;
+      
+        width: 10vw; 
+        font-size: 22px; 
+        border-color: #383535;
+    }
+    .form{
+        font-size: 20px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-weight: bold;
+    }
+</style>
+
+
+
+
+<button class="button_back">
+    <a style="color:#ffffff; text-decoration: none;" href="/gym2">
+        Повернутись
     </a>
 </button>
-<form method="POST" action="{{action}}">
+<form class="form" method="POST" action="{{action}}">
     <fieldset>
         <label>
             Назва вправи
-            <input name="exercise_name" placeholder="Назва вправи" required />
+            <input type="text" name="exercise_name" placeholder="Назва вправи" required />
         </label>
         
         <label>
             Рівень складності
-            <input name="difficult_level" placeholder="Рівень складності" required />
+            <input type="number" name="difficult_level" placeholder="Рівень складності" required />
         </label>
         
         <label>
             Рівень підготовки
-            <input name="required_level" placeholder="Рівень підготовки" />
+            <input type="text" name="required_level" placeholder="Рівень підготовки" />
         </label>
         
         <label>
             Група мязів
-            <input name="Muscle_name" placeholder="Цільова група мязів" />
+            <input type="text" name="Muscle_name" placeholder="Цільова група мязів" />
         </label>
         <label>
             Кількість підходів
-            <input name="Sets" placeholder="К-сть підходів" />
+            <input type="number" name="Sets" placeholder="К-сть підходів" />
         </label>
     </fieldset>
 
-    <input
+    <input  class="button_submit"
             type="Submit"
             value="Додати"
     />

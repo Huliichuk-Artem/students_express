@@ -12,7 +12,6 @@
     "country-list": "^2.4.1",
     "debug": "~2.6.9",
     "dotenv": "^17.3.1",
-    "dotevn": "^0.0.1-security",
     "express": "~4.16.1",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",

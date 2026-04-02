@@ -11,7 +11,7 @@
             Username
             <input name="username" placeholder="Enter Username" required />
             {{#if errorUsername}}
-                <p style="color:#ff0000">{{ErrorUsername}}</p>
+                <p style="color:#ff0000">{{errorUsername}}</p>
              {{/if}}
         </label>
         
@@ -19,7 +19,7 @@
             Password
             <input type="password" name="password" placeholder="Enter Password" required />
             {{#if errorPassword}}
-                <p style="color:#ff0000">{{ErrorPassword}}</p>
+                <p style="color:#ff0000">{{errorPassword}}</p>
             {{/if}}
         </label>
         
@@ -27,7 +27,7 @@
             Age
             <input type="number" name="age" placeholder="Enter Age" required />
             {{#if errorAge}}
-                <p style="color:#ff0000">{{ErrorAge}}</p>
+                <p style="color:#ff0000">{{errorAge}}</p>
             {{/if}}
         </label>
         

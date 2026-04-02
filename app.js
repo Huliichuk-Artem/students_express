@@ -55,7 +55,7 @@ app.use('/street_food', streetFoodRouter);
 app.use('/product', productRouter);
 
 app.use((err, req, res, next) => {
-  console.error('Global error caught:', err.message);
+  console.error('Global error caught:', err || 'Unknown error');
 
   res.status(500).render('error', { 
     message: 'Something went wrong',

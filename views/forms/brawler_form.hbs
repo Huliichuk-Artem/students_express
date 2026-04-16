@@ -1,0 +1,35 @@
+<div style="padding: 20px; font-family: sans-serif;">
+    {{#if isEdit}}
+        <h1>Edit Brawler: {{brawler.name}}</h1>
+    {{else}}
+        <h1>Add New Brawler</h1>
+    {{/if}}
+
+    <form action="/brawlers/{{#if isEdit}}update{{else}}create{{/if}}" method="POST" style="max-width: 400px; display: flex; flex-direction: column; gap: 15px;">
+        
+        {{#if isEdit}}
+            <input type="hidden" name="currentName" value="{{brawler.name}}">
+        {{/if}}
+
+        <label>
+            Brawler Name:
+            <input type="text" name="{{#if isEdit}}newName{{else}}name{{/if}}" value="{{brawler.name}}" required style="width: 100%; padding: 8px;">
+        </label>
+
+        <label>
+            Rarity:
+            <input type="text" name="{{#if isEdit}}newRarity{{else}}rarity{{/if}}" value="{{brawler.rarity}}" style="width: 100%; padding: 8px;">
+        </label>
+
+        <label>
+            Class:
+            <input type="text" name="{{#if isEdit}}newClass{{else}}brawler_class{{/if}}" value="{{brawler.class}}" style="width: 100%; padding: 8px;">
+        </label>
+
+        <button type="submit" style="padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+            {{#if isEdit}}Update Brawler{{else}}Save Brawler{{/if}}
+        </button>
+
+        <a href="/brawlers" style="text-align: center; color: #666; text-decoration: none;">Cancel</a>
+    </form>
+</div>

@@ -24,6 +24,7 @@ import productRouter from './routes/product.js'
 import batmanRouter from './routes/batman.js'
 import barRouter from './routes/bar.js'
 import accountsRouter from './routes/accounts.js'
+import brawlerRouter from './routes/brawlstars.js';
 
 import { fileURLToPath } from 'url';
 
@@ -38,8 +39,9 @@ app.set('view engine', 'hbs');
 
 import hbs from 'hbs';
 
+// Реєстрація хелпера для порівняння значень у шаблонах
 hbs.registerHelper('eq', function (a, b) {
-  return a === b;
+  return String(a) === String(b);
 });
 
 app.use(logger('dev'));
@@ -48,6 +50,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Маршрути
 app.use('/', indexRouter);
 app.use('/movies', moviesRouter);
 app.use('/students', usersRouter);
@@ -65,30 +68,26 @@ app.use('/product', productRouter);
 app.use('/villains', batmanRouter);
 app.use('/bar', barRouter);
 app.use('/accounts', accountsRouter);
+app.use('/brawlers', brawlerRouter);
 
+// --- НОВИЙ ОБРОБНИК ПОМИЛОК ДЛЯ ДІАГНОСТИКИ ---
 app.use((err, req, res, next) => {
-  console.error('Global error caught:', err || 'Unknown error');
+  // Виводимо повну помилку в термінал VS Code
+  console.error('=== КРИТИЧНА ПОМИЛКА ===');
+  console.error(err.stack); 
+  console.error('========================');
 
-  res.status(500).render('error', { 
-    message: 'Something went wrong',
-    error: process.env.NODE_ENV === 'development' ? err : {} 
+  // Виводимо текст помилки в браузер, щоб ми зрозуміли причину
+  res.status(err.status || 500);
+  res.render('error', { 
+    message: err.message, // Тут з'явиться причина (наприклад: column "class" does not exist)
+    error: err 
   });
 });
 
 // catch 404 and forward to error handler
-
 app.use(function (req, res, next) {
   next(createError(404));
-});
-
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  res.status(err.status || 500);
-  res.render('error');
 });
 
 export default app;

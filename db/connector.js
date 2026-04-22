@@ -42,6 +42,8 @@ createTableQueries.push(`
     name TEXT NOT NULL,
     price INT,
     quantity INT
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
     );
   `);
 
@@ -152,6 +154,17 @@ createTableQueries.push(`
             ON DELETE CASCADE
     );
 `);
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS songs (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(255) NOT NULL,
+        artist VARCHAR(255) NOT NULL,
+        genre VARCHAR(100),
+        duration VARCHAR(50),
+        created_at TIMESTAMP DEFAULT NOW()
+    );
+`);
+ 
 
 createTableQueries.push(`CREATE TABLE IF NOT EXISTS heroes_mlbb (
     id SERIAL PRIMARY KEY,
@@ -181,6 +194,51 @@ createTableQueries.push(`
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 `);
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS notabug_bugs (
+        id SERIAL PRIMARY KEY,
+        title TEXT NOT NULL,
+        description TEXT,
+        severity TEXT NOT NULL DEFAULT 'medium',
+        chaos_level INTEGER DEFAULT 20,
+        status TEXT NOT NULL DEFAULT 'open',
+        claimed_by TEXT,
+        bounty INTEGER,
+        steps_to_reproduce TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`);
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS notabug_users (
+        id SERIAL PRIMARY KEY,
+        username TEXT NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL,
+        email TEXT,
+        sanity INTEGER DEFAULT 100,
+        reputation INTEGER DEFAULT 0,
+        balance INTEGER DEFAULT 0,
+        is_active BOOLEAN DEFAULT TRUE,
+        bugs_fixed INTEGER DEFAULT 0,
+        bugs_failed INTEGER DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`);
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS notabug_mutations (
+        id SERIAL PRIMARY KEY,
+        bug_id INTEGER NOT NULL REFERENCES notabug_bugs(id) ON DELETE CASCADE,
+        description TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`);
+createTableQueries.push(`
+    CREATE TABLE IF NOT EXISTS notabug_feed (
+        id SERIAL PRIMARY KEY,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+`);
+
 for await (const query of createTableQueries) {
     try {
         console.log(query.slice(0, query.indexOf('(')).trim() + "...")

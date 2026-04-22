@@ -85,7 +85,9 @@ const passwordInput = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).*$/;
 
 export function checkAge(age) {
   if (age < 0) {
-    throw new Error ("The age cannot be negative")
+    const err = new Error("The age cannot be negative");
+    err.field = "age";
+    throw err;
   }
 }
 

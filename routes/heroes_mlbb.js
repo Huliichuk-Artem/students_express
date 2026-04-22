@@ -15,12 +15,22 @@ router.get('/', async function(req, res, next) {
 });
 
 router.get("/add", (req, res) => {
-  res.render("forms/heroes_mlbb_form", { isEdit: false });
+  res.render("forms/heroes_mlbb_form_add", { isEdit: false });
 });
 
 router.post("/add", async (req, res) => {
   try {
     const { hero_name, hero_class, hero_role, attack_type } = req.body;
+
+    if (!hero_name) {
+    return res.status(400).send("Ім'я героя не може бути пустим рядком");
+} else if (!['tank', 'fighter', 'assassin', 'mage', 'marksman', 'support'].includes(hero_class)) {
+    return res.status(400).send("Клас має бути одним з 'tank', 'fighter', 'assassin', 'mage', 'marksman', 'support'");
+} else if (!hero_role) {
+    return res.status(400).send("Роль не може бути пустою");
+} else if (!['melee', 'ranged'].includes(attack_type)) {
+    return res.status(400).send("Тип атаки має бути одним з 'melee', 'ranged'");
+}
 
     const query = `
       INSERT INTO heroes_mlbb (name, hero_class, role, attack_type)
@@ -67,7 +77,16 @@ router.post("/update/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { hero_name, hero_class, hero_role, attack_type } = req.body;
-
+    
+if (!hero_name) {
+    return res.status(400).send("Ім'я героя не може бути пустим рядком");
+} else if (!['tank', 'fighter', 'assassin', 'mage', 'marksman', 'support'].includes(hero_class)) {
+    return res.status(400).send("Клас має бути одним з 'tank', 'fighter', 'assassin', 'mage', 'marksman', 'support'");
+} else if (!hero_role) {
+    return res.status(400).send("Роль не може бути пустою");
+} else if (!['melee', 'ranged'].includes(attack_type)) {
+    return res.status(400).send("Тип атаки має бути одним з 'melee', 'ranged'");
+}
     const query = `
       UPDATE heroes_mlbb
       SET name = $1, hero_class = $2, role = $3, attack_type = $4

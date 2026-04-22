@@ -25,6 +25,8 @@ import batmanRouter from './routes/batman.js'
 import barRouter from './routes/bar.js'
 import accountsRouter from './routes/accounts.js'
 import housesRouter from './routes/houses.js';
+import spotifyRouter from './routes/spotify.js';
+import notabugRouter from './routes/notabug.js'
 
 import { fileURLToPath } from 'url';
 
@@ -67,6 +69,8 @@ app.use('/villains', batmanRouter);
 app.use('/bar', barRouter);
 app.use('/accounts', accountsRouter);
 app.use('/houses', housesRouter);
+app.use('/spotify', spotifyRouter);
+app.use('/notabug', notabugRouter);
 
 app.use((err, req, res, next) => {
   console.error('Global error caught:', err || 'Unknown error');

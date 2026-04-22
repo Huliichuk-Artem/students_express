@@ -22,6 +22,24 @@ router.post('/addExercise', async function (req, res, next) {
   console.log("Submitted data: ", req.body);
 
   const { exercise_name, difficult_level, required_level, Muscle_name, Sets } = req.body;
+  if (!exercise_name) {
+      return res.status(400).send("Назва вправи не може бути пустим рядком");
+    } else if (!difficult_level) {
+      return res.status(400).send("рівень складності не може бути пустим рядком");
+    } 
+    else if (difficult_level < 1 || difficult_level > 10) {
+      return res.status(400).send("рівень складності повинен бути між 1 і 10");
+    }
+    else if (!required_level) {
+      return res.status(400).send("Рівень підготовки не може бути пустим рядком");
+    } else if (!Muscle_name) {
+      return res.status(400).send("Назва м'яза не може бути пустим рядком");
+    }
+      else if (!Sets) {
+      return res.status(400).send("Кількість підходів не може бути пустим рядком");
+    } else if (Sets < 1) {
+      return res.status(400).send("Кількість підходів не може бути менше 1");
+    } 
 
   async function addExer(exercise_name, difficult_level, required_level, Muscle_name, Sets) {
     try {
@@ -95,6 +113,22 @@ router.get('/edit/:id', async function (req, res, next) {
 router.post('/edit/:id', async function (req, res, next) {
   try {
     const { exercise_name, difficult_level, required_level, Muscle_name, Sets } = req.body;
+    if (!exercise_name) {
+      return res.status(400).send("Назва вправи не може бути пустим рядком");
+    } else if (!difficult_level) {
+      return res.status(400).send("рівень складності не може бути пустим рядком");
+    } else if (difficult_level < 1 || difficult_level > 10) {
+      return res.status(400).send("рівень складності повинен бути між 1 і 10");
+    } else if (!required_level) {
+      return res.status(400).send("Рівень підготовки не може бути пустим рядком");
+    } else if (!Muscle_name) {
+      return res.status(400).send("Назва м'яза не може бути пустим рядком");
+    }
+      else if (!Sets) {
+      return res.status(400).send("Кількість підходів не може бути пустим рядком");
+    } else if (Sets < 1) {
+      return res.status(400).send("Кількість підходів не може бути менше 1");
+    } 
 
     await db.query(
       `

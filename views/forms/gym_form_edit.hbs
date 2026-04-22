@@ -63,21 +63,21 @@
 
         <label>
             Рівень складності
-            <input type="number" name="difficult_level" value="{{item.difficult_level}}" required />
+            <input type="number" name="difficult_level" value="{{item.difficult_level}}" min="1" max="10" step="1" required />
         </label>
 
         <label>
             Рівень підготовки
-            <input type="text" name="required_level" value="{{item.required_level}}" />
+            <input type="text" name="required_level" value="{{item.required_level}}"  required />
         </label>
 
         <label>
             Група мязів
-            <input type="text" name="Muscle_name" value="{{item.muscle_name}}" />
+            <input type="text" name="Muscle_name" value="{{item.muscle_name}}" required />
         </label>
         <label>
             Кількість підходів
-            <input type="number" name="Sets" value="{{item.sets}}" />
+            <input type="number" name="Sets" value="{{item.sets}}" min="1" step="1" required/>
         </label>
     </fieldset>
 

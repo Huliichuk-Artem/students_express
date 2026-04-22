@@ -65,16 +65,16 @@ background: radial-gradient(circle, rgba(99, 99, 99, 1) 0%, rgba(122, 122, 122, 
         
         <label>
             Рівень підготовки
-            <input type="text" name="required_level" placeholder="Рівень підготовки" />
+            <input type="text" name="required_level" placeholder="Рівень підготовки" required/>
         </label>
         
         <label>
             Група мязів
-            <input type="text" name="Muscle_name" placeholder="Цільова група мязів" />
+            <input type="text" name="Muscle_name" placeholder="Цільова група мязів" required />
         </label>
         <label>
             Кількість підходів
-            <input type="number" name="Sets" placeholder="К-сть підходів" />
+            <input type="number" name="Sets" placeholder="К-сть підходів" min="1" step="1" required/>
         </label>
     </fieldset>
 

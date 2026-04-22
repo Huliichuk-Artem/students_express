@@ -34,16 +34,19 @@ router.post('/create', async function(req, res, next) {
     const errorMessage = err.message
     // res.status(500).send(`!! Error registering slonik: this slonik: @${username} is already exist`);
     res.render('forms/sloniki/sloniki_form', {
-      errorUsername: errorMessage.includes("username") ? errorMessage : null,
-      errorAge: errorMessage.includes("age") ? errorMessage : null,
-      errorPassword: (errorMessage.
-        includes("Password") || errorMessage.
-        includes("password")) ? errorMessage : null,
-      errorPlaceOfBirth: errorMessage.includes("place") ? errorMessage : null,
-      username, age, place_of_birth
-    })
-  }
-})
+      errorUsername: err.field === "username" ? err.message : null,
+      errorAge: err.field === "age" ? err.message : null,
+      errorPassword: err.field === "password" ? err.message : null,
+      errorPlaceOfBirth: err.field === "place_of_birth" ? err.message : null,
+
+      formData: {
+        username,
+        age,
+        place_of_birth
+      }
+    });
+  };
+});
 
 router.get('/delete', async function(req, res, next) {
   res.render('forms/sloniki/deleteSloniki');
@@ -89,6 +92,5 @@ router.post('/update', async (req, res) => {
     }
   }
 });
-
 
 export default router;

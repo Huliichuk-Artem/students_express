@@ -1,13 +1,8 @@
-class StreetFood {
+class Product {
   constructor(data) {
     this.id = data.id;
-    this.food_name = data.food_name;
-    this.country = data.country;
-    this.spicy_level = data.spicy_level;
     this.price = data.price;
-    this.rating = data.rating;
     this.image_url = data.image_url;
-    this.user_id = data.user_id;
     this.created_at = data.created_at;
   }
 
@@ -26,6 +21,25 @@ class StreetFood {
       minute: '2-digit',
       hour12: false
     }).format(new Date(this.created_at));
+  }
+}
+
+class StreetFood extends Product {
+  constructor(data) {
+    super(data);
+
+    this.food_name = data.food_name;
+    this.country = data.country;
+    this.spicy_level = data.spicy_level;
+    this.rating = data.rating;
+    this.user_id = data.user_id;
+  }
+
+  get spicyLabel() {
+    if (this.spicy_level >= 8) return 'Very spicy';
+    if (this.spicy_level >= 5) return 'Medium spicy';
+
+    return 'Mild';
   }
 
   toJSON() {

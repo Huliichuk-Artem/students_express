@@ -2,7 +2,46 @@ import express from 'express';
 const router = express.Router();
 import db from '../db/connector.js';
 
+// CLASS VALIDATION
+//--------------------------------------------------------------
+class ValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "ValidationError";
+  }
+}
+class Exercise {
+  constructor ({exercise_name, difficult_level, required_level, Muscle_name, Sets}) {
+     if (!exercise_name) {
+      throw new ValidationError("Назва вправи не може бути пустим рядком");
+    } else if (!difficult_level) {
+      throw new ValidationError("рівень складності не може бути пустим рядком");
+    } 
+    else if (difficult_level < 1 || difficult_level > 10) {
+      throw new ValidationError("рівень складності повинен бути між 1 і 10");
+    }
+    else if (!required_level) {
+      throw new ValidationError("Рівень підготовки не може бути пустим рядком");
+    } else if (!Muscle_name) {
+      throw new ValidationError("Назва м'яза не може бути пустим рядком");
+    }
+      else if (!Sets) {
+      throw new ValidationError("Кількість підходів не може бути пустим рядком");
+    } else if (Sets < 1) {
+      throw new ValidationError("Кількість підходів не може бути менше 1");
+    } 
+    this.exercise_name = exercise_name;
+    this.difficult_level = difficult_level;
+    this.required_level = required_level;
+    this.Muscle_name = Muscle_name;
+    this.Sets = Sets;
+  }
+  }
 
+
+//--------------------------------------------------------------
+
+// ADD EXERCISE
 router.get('/', async function (req, res, next) {
   const exercise = await db.query('SELECT * FROM gym2');
 
@@ -21,51 +60,36 @@ router.get('/addExercise', async function (req, res, next) {
 router.post('/addExercise', async function (req, res, next) {
   console.log("Submitted data: ", req.body);
 
-  const { exercise_name, difficult_level, required_level, Muscle_name, Sets } = req.body;
-  if (!exercise_name) {
-      return res.status(400).send("Назва вправи не може бути пустим рядком");
-    } else if (!difficult_level) {
-      return res.status(400).send("рівень складності не може бути пустим рядком");
-    } 
-    else if (difficult_level < 1 || difficult_level > 10) {
-      return res.status(400).send("рівень складності повинен бути між 1 і 10");
-    }
-    else if (!required_level) {
-      return res.status(400).send("Рівень підготовки не може бути пустим рядком");
-    } else if (!Muscle_name) {
-      return res.status(400).send("Назва м'яза не може бути пустим рядком");
-    }
-      else if (!Sets) {
-      return res.status(400).send("Кількість підходів не може бути пустим рядком");
-    } else if (Sets < 1) {
-      return res.status(400).send("Кількість підходів не може бути менше 1");
-    } 
+  
 
-  async function addExer(exercise_name, difficult_level, required_level, Muscle_name, Sets) {
     try {
+      const ValidationExercise = new Exercise(req.body)
       const query = `
       INSERT INTO gym2 (
             exercise_name, difficult_level, required_level, Muscle_name, Sets
         )
         VALUES ($1, $2, $3, $4, $5) 
         RETURNING *`;
-      const res = await db.query(query, [exercise_name, difficult_level, required_level, Muscle_name, Sets]);
+      const result = await db.query(query, [
+        ValidationExercise.exercise_name,
+        ValidationExercise.difficult_level,
+        ValidationExercise.required_level,
+        ValidationExercise.Muscle_name,
+        ValidationExercise.Sets
+      ]);
+      res.redirect('/gym2');
 
     } catch (err) {
-      console.error(err)
-      throw err;
+      if (err instanceof ValidationError) {
+        return res.status(400).send(`Помилка додавання вправи: ${err.message}`);
+      }
+      res.status(500).send(`Error: ${err.message}`);
     }
   }
+);
+//--------------------------------------------------------------
 
-  try {
-    await addExer(exercise_name, difficult_level, required_level, Muscle_name, Sets);
-
-    res.redirect('/gym2');
-  } catch (err) {
-    res.status(500).send("Помилка при додаванні вправи. Можливо, вона вже існує.");
-  }
-});
-
+// DELETE
 router.get("/delete/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -76,7 +100,7 @@ router.get("/delete/:id", async (req, res) => {
     res.status(500).send("Could not delete exercise");
   }
 });
-
+//--------------------------------------------------------------
 
 
 // Edit
@@ -112,24 +136,7 @@ router.get('/edit/:id', async function (req, res, next) {
 
 router.post('/edit/:id', async function (req, res, next) {
   try {
-    const { exercise_name, difficult_level, required_level, Muscle_name, Sets } = req.body;
-    if (!exercise_name) {
-      return res.status(400).send("Назва вправи не може бути пустим рядком");
-    } else if (!difficult_level) {
-      return res.status(400).send("рівень складності не може бути пустим рядком");
-    } else if (difficult_level < 1 || difficult_level > 10) {
-      return res.status(400).send("рівень складності повинен бути між 1 і 10");
-    } else if (!required_level) {
-      return res.status(400).send("Рівень підготовки не може бути пустим рядком");
-    } else if (!Muscle_name) {
-      return res.status(400).send("Назва м'яза не може бути пустим рядком");
-    }
-      else if (!Sets) {
-      return res.status(400).send("Кількість підходів не може бути пустим рядком");
-    } else if (Sets < 1) {
-      return res.status(400).send("Кількість підходів не може бути менше 1");
-    } 
-
+    const ValidationExercise = new Exercise(req.body)
     await db.query(
       `
       UPDATE gym2
@@ -141,17 +148,20 @@ router.post('/edit/:id', async function (req, res, next) {
       WHERE id = $6
       `,
       [
-        exercise_name,
-        difficult_level,
-        required_level === '' ? null : required_level,
-        Muscle_name === '' ? null : Muscle_name,
-        Sets === '' ? null : Sets,
+        ValidationExercise.exercise_name,
+        ValidationExercise.difficult_level,
+        ValidationExercise.required_level === '' ? null : ValidationExercise.required_level,
+        ValidationExercise.Muscle_name === '' ? null : ValidationExercise.Muscle_name,
+        ValidationExercise.Sets === '' ? null : ValidationExercise.Sets,
         req.params.id
       ]
     );
   } catch (err) {
-    next(err);
-  }
+      if (err instanceof ValidationError) {
+        return res.status(400).send(`Помилка додавання вправи: ${err.message}`);
+      }
+      res.status(500).send(`Error: ${err.message}`);
+    }
   res.redirect('/gym2');
 });
 // -------------------------------------------------------------
